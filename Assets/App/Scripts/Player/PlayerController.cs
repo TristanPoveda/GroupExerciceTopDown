@@ -3,41 +3,27 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Title("Settings")]
-    [SerializeField] private float moveSpeed;
-
-    [Title("References")]
-    [SerializeField] private GridManager gridManager;
+    [SerializeField] private float moveSpeed = 0.25f;
 
     [Title("RSE")]
     [SerializeField] private RSE_MovementInput rseMovementInput;
-    [SerializeField] private RSE_InteractInput rseInteractInput;
-    [SerializeField] private RSE_AttackInput rseAttackInput;
 
     private Vector2Int movementInput;
-
-    private Cell currentCell;
-    private Cell targetCell;
 
     private CountdownTimer movementTimer;
 
     private void OnEnable()
     {
         rseMovementInput.action += OnMoveInput;
-        rseInteractInput.action += OnInteractInput;
-        rseAttackInput.action += OnAttackInput;
     }
 
     private void OnDisable()
     {
         rseMovementInput.action -= OnMoveInput;
-        rseInteractInput.action -= OnInteractInput;
-        rseAttackInput.action -= OnAttackInput;
     }
 
     private void Awake()
     {
-        currentCell = gridManager.Grid[gridManager.GetCoordinatesFromPosition(transform.position)];
-
         SetupTimers();
     }
 
@@ -58,7 +44,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if(CanMove() && !movementTimer.IsRunning)
+        {
+            movementTimer.Start();
+            Move();
+        }
     }
 
     private void OnMoveInput(Vector2Int direction)
@@ -66,28 +56,22 @@ public class PlayerController : MonoBehaviour
         movementInput = direction;
     }
 
-    private void OnInteractInput(bool performed)
-    {
-        Debug.Log("Interact -> " + performed);
-    }
-
-    private void OnAttackInput(bool performed)
-    {
-        Debug.Log("Attack -> " + performed);
-    }
-
     private void Move()
     {
-        if (movementInput == Vector2Int.zero || movementTimer.IsRunning) return;
+        transform.position += new Vector3(movementInput.x, 0, movementInput.y);
+    }
 
-        Vector2Int targetPos = currentCell.cords + movementInput;
-        Cell targetCell = gridManager.GetCell(targetPos);
+    private bool CanMove()
+    {
+        if (movementInput.magnitude == 0) return false;
 
-        if (targetCell != null && targetCell.type == CellType.Walkable)
+        Collider[] colliders = Physics.OverlapBox(transform.position + new Vector3(movementInput.x, 0, movementInput.y), Vector3.zero);
+
+        foreach (Collider collider in colliders)
         {
-            movementTimer.Start();
-            transform.position = gridManager.GetPositionFromCoordinates(targetCell.cords);
-            currentCell = targetCell;
+            if (collider.CompareTag("Wall")) return false;
         }
+
+        return true;
     }
 }

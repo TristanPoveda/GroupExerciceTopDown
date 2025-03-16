@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fe01c57c469934cad54be9f6407a24, type: 3}
-  m_Name: RSE_InteractInput
+  m_Script: {fileID: 11500000, guid: 60d9f1c6e09e33b4c888b90de1e2f9eb, type: 3}
+  m_Name: RSO_Items
   m_EditorClassIdentifier: 
