@@ -153,5 +153,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ade491648c3b84dbb846a6518df9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostTime: 10
+  ghostTime: 5
   rSE_CallGhostItemTimer: {fileID: 11400000, guid: 4f9e26ac668d71749b91d9d7f61c7e70, type: 2}
