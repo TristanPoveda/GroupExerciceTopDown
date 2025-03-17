@@ -4,10 +4,14 @@ public class PlayerController : MonoBehaviour
 {
     [Title("Settings")]
     [SerializeField] private float moveSpeed = 0.25f;
+    [SerializeField] int movementPoints;
 
     [Title("RSE")]
     [SerializeField] private RSE_MovementInput rseMovementInput;
 
+    [Header("References")]
+    [SerializeField] RSO_MovementPoints rSO_MovementPoints;
+    [SerializeField] RSE_OpenScene rSE_OpenScene;
     private Vector2Int movementInput;
 
     private CountdownTimer movementTimer;
@@ -26,7 +30,10 @@ public class PlayerController : MonoBehaviour
     {
         SetupTimers();
     }
-
+    private void Start()
+    {
+       rSO_MovementPoints.Value = movementPoints;
+    }
     private void SetupTimers()
     {
         movementTimer = new CountdownTimer(moveSpeed);
@@ -35,6 +42,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleTimers();
+        if(rSO_MovementPoints.Value <= 0)
+        {
+            rSE_OpenScene.Call("MainMenu");
+        }
     }
 
     private void HandleTimers()
@@ -59,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         transform.position += new Vector3(movementInput.x, 0, movementInput.y);
+        rSO_MovementPoints.Value--;
     }
 
     private bool CanMove()
