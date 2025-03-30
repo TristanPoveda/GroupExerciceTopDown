@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         transform.position += new Vector3(movementInput.x, 0, movementInput.y);
+        movementInput = Vector2Int.zero;
         rSO_MovementPoints.Value--;
     }
 

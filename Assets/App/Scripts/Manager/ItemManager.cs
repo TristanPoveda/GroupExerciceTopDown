@@ -1,19 +1,17 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-public class PowerUpManager : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    //[Header("Settings")]
+    [Header("Settings")]
+    [SerializeField] private int collectibleQuantity;
 
     [Header("References")]
+    [SerializeField] private List<Transform> collectiblesSpawnPoints;
+    [SerializeField] private GameObject collectible;
     [SerializeField] RSO_WallLevel rSO_WallLevel;
     [SerializeField] RSE_CallGhostItemTimer rSE_CallGhostItemTimer;
-    //[Space(10)]
-    // RSO
-    // RSF
-    // RSP
 
-    //[Header("Input")]
-    //[Header("Output")]
     private void OnEnable()
     {
         rSE_CallGhostItemTimer.action += StartGhostPowerUp;
@@ -24,16 +22,24 @@ public class PowerUpManager : MonoBehaviour
     }
     private void Awake()
     {
-        rSO_WallLevel.Value.Clear();
+        if(rSO_WallLevel.Value != null) rSO_WallLevel.Value.Clear();
+        else rSO_WallLevel.Value = new List<Collider>();
     }
     private void Start()
     {
-        GameObject[] collider = GameObject.FindGameObjectsWithTag("Wall");
-        for (int i = 0;  i < collider.Length; i++)
+        GameObject[] wallColliders = GameObject.FindGameObjectsWithTag("Wall");
+        for (int i = 0;  i < wallColliders.Length; i++)
         {
-            rSO_WallLevel.Value.Add(collider[i].GetComponent<Collider>());
+            rSO_WallLevel.Value.Add(wallColliders[i].GetComponent<Collider>());
         }
-       
+
+        for(int i = 0; i < collectibleQuantity; i++)
+        {
+            int index = Random.Range(0, collectibleQuantity);
+            Instantiate(collectible, collectiblesSpawnPoints[index]);
+            collectiblesSpawnPoints.RemoveAt(index);
+        }
+
     }
     private void StartGhostPowerUp(float ghostTime)
     {

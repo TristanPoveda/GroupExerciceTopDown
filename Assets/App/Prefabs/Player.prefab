@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08ad75a4748fac943a13000011598f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeMagnitude: 100
   rseMovementInput: {fileID: 11400000, guid: 18b3e46e1b058a945945551b555173de, type: 2}
 --- !u!65 &3461539284605566748
 BoxCollider:

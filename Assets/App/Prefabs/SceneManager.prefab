@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fddb710f76ac4148af0547767ef7343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelDuration: 10
   rSE_OpenScene: {fileID: 11400000, guid: 486d3a54da9e7694098dfab714929f01, type: 2}
   rSE_QuitGame: {fileID: 11400000, guid: 4d0a0ed996ff19046925da93cb2321ae, type: 2}

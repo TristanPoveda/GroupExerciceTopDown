@@ -14,7 +14,7 @@ public class Exit : MonoBehaviour
 
     private void Awake()
     {
-        rsoItems.Value.Clear();
+        if(rsoItems.Value != null) rsoItems.Value.Clear();
     }
     private void OnTriggerEnter(Collider other)
     {
